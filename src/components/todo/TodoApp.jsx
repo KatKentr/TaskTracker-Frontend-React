@@ -1,3 +1,4 @@
+import './TodoApp.css'
 import LoginComponent from "./LoginComponent";
 import WelcomeComponent from "./WelcomeComponent";
 
@@ -8,7 +9,7 @@ export default function TodoApp(){
         <div className="TodoApp">
             Todo Management Application  
             <LoginComponent />
-            <WelcomeComponent />   
+            {/* <WelcomeComponent />    */}
         </div>
     )
 
