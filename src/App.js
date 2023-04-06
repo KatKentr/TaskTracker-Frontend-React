@@ -1,25 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import LearningComponent from './components/learning-examples/LearningComponent.jsx';
 
 function App() {
   return (
+
+    //with className we specify the css class
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+          My Todo Application updated
+          
+          <LearningComponent  />
     </div>
   );
 }
+
+
+
+
+
 
 export default App;
