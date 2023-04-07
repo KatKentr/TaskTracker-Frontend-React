@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function LoginComponent() {
@@ -8,6 +9,7 @@ function LoginComponent() {
     const [password, setPassword]= useState('')
     const [showSuccessMessage, setShowSuccessMessage]= useState(false)
     const [showErrorMessage, setShowErrorMessage]= useState(false)
+    const navigate=useNavigate();
 
 
     function handleUsernameChange(event){
@@ -26,6 +28,7 @@ function LoginComponent() {
 
             setShowSuccessMessage(true)
             setShowErrorMessage(false)
+            navigate('/welcome')
         } else {
 
             setShowErrorMessage(true)
