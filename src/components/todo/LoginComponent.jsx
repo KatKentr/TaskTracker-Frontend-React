@@ -28,7 +28,7 @@ function LoginComponent() {
 
             setShowSuccessMessage(true)
             setShowErrorMessage(false)
-            navigate('/welcome')
+            navigate(`/welcome/${username}`)
         } else {
 
             setShowErrorMessage(true)
