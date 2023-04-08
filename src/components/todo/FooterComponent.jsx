@@ -4,7 +4,7 @@ function FooterComponent() {
     return (
         
         <footer className="footer">
-            <div class="container">
+            <div className="container">
                Your footer
             </div>
         </footer>
