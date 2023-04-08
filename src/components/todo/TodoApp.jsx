@@ -13,8 +13,9 @@ export default function TodoApp(){
 
     return (
         <div className="TodoApp">   {/*our page will be a combination of three components: Header Component, a component selected based on the route and the footer component*/}
-            <HeaderComponent />
+            
             <BrowserRouter>
+            <HeaderComponent />
             <Routes>
                 <Route path='/' element={<LoginComponent />} />
                 <Route path='/login' element={<LoginComponent />} />
@@ -23,9 +24,9 @@ export default function TodoApp(){
                 <Route path='/logout' element={<LogoutComponent />} />
                 <Route path='*' element={<ErrorComponent />} />   {/*error page is shown to the user for a not defined path */}
             </Routes>
-            
-            </BrowserRouter> 
             <FooterComponent />
+            </BrowserRouter> 
+           
                
         </div>
     )

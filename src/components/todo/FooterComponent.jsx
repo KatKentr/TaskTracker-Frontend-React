@@ -3,10 +3,11 @@ function FooterComponent() {
 
     return (
         
-        <div className="footer">
-
-         <hr/> Footer
-        </div>
+        <footer className="footer">
+            <div class="container">
+               Your footer
+            </div>
+        </footer>
     )
 
 }

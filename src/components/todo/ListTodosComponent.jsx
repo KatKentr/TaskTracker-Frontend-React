@@ -13,12 +13,12 @@ function ListTodosComponent() {
 
     return (
         
-        <div className="ListTodosComponent">
+        <div className="container">
 
            <h1>Things you want to do! </h1>
         
         <div>
-            <table>
+            <table className="table">
                <thead>
                 <tr>
                     <td>Id</td>
