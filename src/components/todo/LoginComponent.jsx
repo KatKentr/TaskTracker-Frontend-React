@@ -8,7 +8,6 @@ function LoginComponent() {
     // will return an array of two elements. when we invoke the value setUsername, we update the value stored in state
     const [username, setUsername]= useState('Katerina')
     const [password, setPassword]= useState('')
-    const [showSuccessMessage, setShowSuccessMessage]= useState(false)
     const [showErrorMessage, setShowErrorMessage]= useState(false)
     const navigate=useNavigate();
 

@@ -9,9 +9,6 @@ export const useAuth = () => useContext(AuthContext)  //we create a hook, so tha
 export default function AuthProvider({children}) {   //all the children under the AuthProvider ill be assigned under the variable children
 
 
-    //put some state in the context
-    const [number,setNumber] = useState(0)
-
     const [isAuthenticated, setAuthenticated] = useState(false)  //we want to make this value available to other components, we put it inside the valueToBeShared
 
 
@@ -29,10 +26,16 @@ export default function AuthProvider({children}) {   //all the children under th
     }
 
 
+    function logout(){
+
+        setAuthenticated(false)
+    }
+
+
 
     return (
 
-         <AuthContext.Provider value= {{number,isAuthenticated,setAuthenticated, login}}>   {/* we create an object, These values will be shared among the child components*/}
+         <AuthContext.Provider value= {{isAuthenticated,login,logout}}>   {/* we create an object, These values will be shared among the child components*/}
             {children}   {/*the context will be shared ith children(components) of the AuthProvider */}
         </AuthContext.Provider>
 

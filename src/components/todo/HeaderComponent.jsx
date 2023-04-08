@@ -12,7 +12,7 @@ function HeaderComponent() {
 
     function logout(){
 
-        authContext.SetAuthenticated(false) 
+        authContext.logout()
     }
 
     //console.log(authContext);   
