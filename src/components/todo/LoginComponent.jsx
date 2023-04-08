@@ -28,7 +28,7 @@ function LoginComponent() {
     function handleSubmit(event){
 
         if (username==='Katerina' && password==='dummy'){
-            authContext.setAuthenticated(true)
+            authContext.setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true
             setShowSuccessMessage(true)
             setShowErrorMessage(false)
             navigate(`/welcome/${username}`)

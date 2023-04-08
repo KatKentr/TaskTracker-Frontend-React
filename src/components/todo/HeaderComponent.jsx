@@ -10,6 +10,11 @@ function HeaderComponent() {
 
     const isAuthenticated= authContext.isAuthenticated   //depending on the authentication status we want to enable/disable Home, Login and Logout links present in the Header
 
+    function logout(){
+
+        authContext.SetAuthenticated(false) 
+    }
+
     //console.log(authContext);   
 
     return (
@@ -27,7 +32,7 @@ function HeaderComponent() {
                         </div>
                         <ul className="navbar-nav">
                         {!isAuthenticated && <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>}
-                        {isAuthenticated &&  <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>}
+                        {isAuthenticated &&  <li className="nav-item fs-5"><Link className="nav-link" to="/logout" onClick={logout}>Logout</Link></li>}  {/* when logout is clicked we set authContext.SetAuthenticated to false */}
                         </ul>
                     </nav>
                 </div>
