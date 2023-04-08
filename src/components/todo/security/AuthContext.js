@@ -15,9 +15,24 @@ export default function AuthProvider({children}) {   //all the children under th
     const [isAuthenticated, setAuthenticated] = useState(false)  //we want to make this value available to other components, we put it inside the valueToBeShared
 
 
+    //authentication logic
+    function login(username,password){
+
+        if (username==='Katerina' && password==='dummy'){
+            setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true
+            return true           
+        } else {
+            setAuthenticated(false)
+            return false
+        }
+
+    }
+
+
+
     return (
 
-         <AuthContext.Provider value= {{number,isAuthenticated,setAuthenticated}}>   {/* we create an object, Login component needs the setAuthenticated method to set the value of isAuthenticated*/}
+         <AuthContext.Provider value= {{number,isAuthenticated,setAuthenticated, login}}>   {/* we create an object, These values will be shared among the child components*/}
             {children}   {/*the context will be shared ith children(components) of the AuthProvider */}
         </AuthContext.Provider>
 

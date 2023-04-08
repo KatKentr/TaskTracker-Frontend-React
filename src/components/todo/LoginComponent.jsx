@@ -27,16 +27,12 @@ function LoginComponent() {
 
     function handleSubmit(event){
 
-        if (username==='Katerina' && password==='dummy'){
-            authContext.setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true
-            setShowSuccessMessage(true)
-            setShowErrorMessage(false)
+        if (authContext.login(username,password)){   //we invoke the method for the authentication
+           
             navigate(`/welcome/${username}`)
             
         } else {
-            authContext.setAuthenticated(false)
             setShowErrorMessage(true)
-            setShowSuccessMessage(false)
 
         }
     }
@@ -45,7 +41,7 @@ function LoginComponent() {
     return (
         <div className="Login">
             {/* if the value of the variable is true we show the correponding message */}
-            {showSuccessMessage && <div className="successMeage">Authenticated Successfully</div>}
+            
             {showErrorMessage &&  <div className="errorMessage">Authentication failed. Please check your credentials.</div>}
             {/* username password button */}
             <div className="LoginForm">
