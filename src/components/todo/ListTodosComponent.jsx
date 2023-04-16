@@ -1,12 +1,17 @@
 import { useEffect } from "react"
 import { retrieveAllToDosForUsernameApi,deleteToDoApi } from "./api/TodoApiService"
 import { useState } from "react"
+import { useAuth } from "./security/AuthContext"
 
 
 
 function ListTodosComponent() {
 
     const today = new Date()
+
+    const authContext= useAuth()
+
+    const username=authContext.username
     
     const targetDate = new Date(today.getFullYear()+12, today.getMonth(), today.getDay())
 
@@ -28,7 +33,7 @@ useEffect (               //we want to load data as soon as the component is rea
 
 function refreshTodos (){
 
-    retrieveAllToDosForUsernameApi('Katerina')   //invoke function that invokes a call to a rest api
+    retrieveAllToDosForUsernameApi(username)   //invoke function that invokes a call to a rest api
                .then( (response) => 
                {
                 //console.log(response.data)
@@ -42,7 +47,7 @@ function refreshTodos (){
 
 
 function deleteToDo(id){
-    deleteToDoApi('Katerina',id)   //invoke the function that invokes a call to the rest api
+    deleteToDoApi(username,id)   //invoke the function that invokes a call to the rest api
     .then(
 
         () => {
