@@ -1,7 +1,8 @@
 import { useEffect } from "react"
-import { retrieveAllToDosForUsernameApi,deleteToDoApi } from "./api/TodoApiService"
+import { retrieveAllToDosForUsernameApi,deleteToDoApi, retrieveToDoApi } from "./api/TodoApiService"
 import { useState } from "react"
 import { useAuth } from "./security/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -12,6 +13,8 @@ function ListTodosComponent() {
     const authContext= useAuth()
 
     const username=authContext.username
+
+    const navigate=useNavigate()
     
     const targetDate = new Date(today.getFullYear()+12, today.getMonth(), today.getDay())
 
@@ -61,6 +64,12 @@ function deleteToDo(id){
 
     
 }
+
+function updateToDo(id){
+   //we need to redirect to an update todo page
+   navigate(`/todos/${id}`)
+    
+}
     
 
     return (
@@ -79,6 +88,7 @@ function deleteToDo(id){
                     <th>Is Done?</th>
                     <th>Target Date</th>
                     <th>Delete</th>
+                    <th>Update</th>
         
                 </tr>
                </thead>
@@ -87,11 +97,11 @@ function deleteToDo(id){
                         todos.map(
                             todo => (
                                 <tr key={todo.id}>
-                                    <td>{todo.id}</td>
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
                                      <td><button className="btn btn-warning" onClick={()=>deleteToDo(todo.id)}>Delete</button></td>  {/*when the function has arguments, we need to use an arrow function */}
+                                     <td><button className="btn btn-success" onClick={()=>updateToDo(todo.id)}>Update</button></td>
                                 </tr>
                             )
                         )

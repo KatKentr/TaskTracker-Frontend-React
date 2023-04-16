@@ -22,5 +22,6 @@ export const deleteToDoApi                                //arrow function. equi
 =(username,id) => apiClient.delete(`/users/${username}/todos/${id}`)
 
 
-
+export const retrieveToDoApi                                
+=(username,id) => apiClient.get(`/users/${username}/todos/${id}`)
 
