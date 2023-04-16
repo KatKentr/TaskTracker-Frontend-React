@@ -12,12 +12,15 @@ const apiClient = axios.create(
 );
 
 
-export function retrieveAllToDosForUsername(username){
+export function retrieveAllToDosForUsernameApi(username){
 
     return apiClient.get(`/users/${username}/todos`)    //a rest api call
 
 }
 
-export const retrieveHelloWorldPathParameter //arrow function. equivalent to a regular function with a return statement
-= (username) => apiClient.get(`/hello-world/path-variable/${username}`)
+export const deleteToDoApi                                //arrow function. equivalent to a regular function with a return statement
+=(username,id) => apiClient.delete(`/users/${username}/todos/${id}`)
+
+
+
 
