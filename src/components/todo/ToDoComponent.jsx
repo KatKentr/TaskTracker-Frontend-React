@@ -1,7 +1,7 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from './security/AuthContext'
 import { useEffect } from 'react'
-import { retrieveToDoApi } from './api/TodoApiService'
+import { retrieveToDoApi, updateToDoApi } from './api/TodoApiService'
 import { useState } from 'react'
 import { Formik, Form, Field,ErrorMessage } from 'formik'
 
@@ -16,6 +16,8 @@ export default function ToDoComponent() {
 
     const [description, setDescription] = useState('')
     const [targetDate,setTargetDate]=useState('')
+
+    const navigate=useNavigate()
 
     useEffect(   //when the component is loaded we invoke the function to load the details of the selected todo
         () => retrieveToDos(), [id]
@@ -37,6 +39,15 @@ export default function ToDoComponent() {
 
     function onSubmit(values){
         console.log(values)
+        const todo= {id: id,username:username,description:values.description,targetDate:values.targetDate,done:false}
+        console.log(todo)
+        updateToDoApi(username,id,todo)   //make a call to the updatetoApi, if it is succesfull the todo is updated
+        .then(response => {
+            //console.log(response)
+            navigate('/todos')
+        })
+
+        .catch(error => console.log(error))
 
     }
 

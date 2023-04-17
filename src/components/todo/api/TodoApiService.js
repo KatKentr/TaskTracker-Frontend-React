@@ -25,3 +25,8 @@ export const deleteToDoApi                                //arrow function. equi
 export const retrieveToDoApi                                
 =(username,id) => apiClient.get(`/users/${username}/todos/${id}`)
 
+export const updateToDoApi                                
+=(username,id,todo) => apiClient.put(`/users/${username}/todos/${id}`,todo)     //in update and create operations we also have a request body!
+
+export const createToDoApi                                
+=(username,todo) => apiClient.post(`/users/${username}/todos`,todo)
