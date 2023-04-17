@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from './security/AuthContext'
 import { useEffect } from 'react'
-import { retrieveToDoApi, updateToDoApi } from './api/TodoApiService'
+import { retrieveToDoApi, updateToDoApi,createToDoApi } from './api/TodoApiService'
 import { useState } from 'react'
 import { Formik, Form, Field,ErrorMessage } from 'formik'
+import moment from 'moment'
 
 export default function ToDoComponent() {
 
@@ -14,40 +15,58 @@ export default function ToDoComponent() {
 
     //we want to allow editing of description and the target date, so we need state variables for both.
 
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState('')   //the initial values are empty strings
     const [targetDate,setTargetDate]=useState('')
 
     const navigate=useNavigate()
 
-    useEffect(   //when the component is loaded we invoke the function to load the details of the selected todo
-        () => retrieveToDos(), [id]
+    useEffect(   //when the component is loaded we invoke the function to load the details of the selected todo. In case of id==1 (we add a new todo) empty field are shown
+        () => retrieveToDos(), [id]     
     )
 
 
     function retrieveToDos() {
 
-        retrieveToDoApi(username, id)
+        if (id!=-1) {  //we load the todo details only if the id is not -1. (Only if the todo already exists and not in the case that a new todo is being added)
+
+            retrieveToDoApi(username, id)
             .then(response => {
                 setDescription(response.data.description)
                 setTargetDate(response.data.targetDate)
             })
 
             .catch(error => console.log(error))
+        }
+        
 
     }
 
-
-    function onSubmit(values){
+   
+    function onSubmit(values){    //when the user clicks the save button
         console.log(values)
         const todo= {id: id,username:username,description:values.description,targetDate:values.targetDate,done:false}
-        console.log(todo)
-        updateToDoApi(username,id,todo)   //make a call to the updatetoApi, if it is succesfull the todo is updated
+        //console.log(todo)
+
+        if (id ==-1){   //in case a new todo is being added
+
+            createToDoApi(username,todo)   //make a call to create a new todo. Save the new todo
+            .then(response => {
+                //console.log(response)
+                navigate('/todos')
+            })
+    
+            .catch(error => console.log(error))
+
+        } else {
+
+            updateToDoApi(username,id,todo)   //make a call to the updatetoApi, if it is succesfull the todo is updated
         .then(response => {
             //console.log(response)
             navigate('/todos')
         })
-
         .catch(error => console.log(error))
+
+        }
 
     }
 
@@ -59,7 +78,7 @@ export default function ToDoComponent() {
             errors.description='Enter a valid description'
         }
 
-        if (values.targetDate == null){
+        if (values.targetDate == null  || values.targetDate=='' || !moment(values.targetDate).isValid()){
             errors.targetDate='Enter a target date'
         }
                
@@ -75,7 +94,7 @@ export default function ToDoComponent() {
             <div>
                 <Formik initialValues={ { description, targetDate } } 
                   enableReinitialize = {true}
-                    onSubmit = {onSubmit}
+                    onSubmit = {onSubmit}    //when the user clicks the save button
                     validate={validate}
                     validateOnChange={false}    //I want to validate users input only when i click save
                     validateOnBlur={false}>

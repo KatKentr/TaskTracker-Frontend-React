@@ -70,6 +70,14 @@ function updateToDo(id){
    navigate(`/todos/${id}`)
     
 }
+
+function addNewTodo(){
+    //we need to redirect to an update todo page
+    navigate(`/todos/-1`)    //we navigate to the todos page with id -1
+     
+ }
+
+
     
 
     return (
@@ -110,6 +118,7 @@ function updateToDo(id){
 
             </table>
         </div>
+        <div> <div className="btn btn-success m-5" onClick={addNewTodo}>Add New Todo</div></div>
         </div>
     )
 
