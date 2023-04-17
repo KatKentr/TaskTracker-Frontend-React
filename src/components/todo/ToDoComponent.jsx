@@ -40,16 +40,34 @@ export default function ToDoComponent() {
 
     }
 
+    function validate(values){    //validate the description and the target data that the user attempts to submit
+        //console.log(values)
+        let errors={}
+
+        if (values.description.length<5){
+            errors.description='Enter a valid description'
+        }
+
+        if (values.targetDate == null){
+            errors.targetDate='Enter a target date'
+        }
+               
+        return errors
+
+    }
+
 
     return (
         <div className="container">
 
             <h1>Enter Todo Details</h1>
             <div>
-                description: {description}
                 <Formik initialValues={ { description, targetDate } } 
                   enableReinitialize = {true}
-                    onSubmit = {onSubmit}>
+                    onSubmit = {onSubmit}
+                    validate={validate}
+                    validateOnChange={false}    //I want to validate users input only when i click save
+                    validateOnBlur={false}>
                     {
                         (props) => (
 
