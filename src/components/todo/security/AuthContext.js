@@ -37,7 +37,8 @@ export default function AuthProvider({children}) {   //all the children under th
         .then (response => console.log(response))
         .catch(error => console.log(error))
 
-        setAuthenticated(false)
+        setAuthenticated(false)              //this will get executed before the above block. The above block will get executed once we get the response back
+                                             //However in this method we want to stop execution until we get a respnse back. If we get a response back we want to send the true back, so we will make this method an async method
 
 
         // if (username==='Katerina' && password==='dummy'){
