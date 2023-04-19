@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import {executeBasicAuthenticationService} from "../api/TodoApiService"
+import { apiClient } from "../api/ApiClient";
 
 //We will create an authentication context, put some state in the context and share the created content with other components 
 export const AuthContext = createContext()  //provide access to the AuthContext to the other components, in order to be able to ue the number variable in another component
@@ -43,6 +44,14 @@ export default function AuthProvider({children}) {   //all the children under th
                 setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
                 setUsername(username)
                 setToken(baToken)       //we also need to set the token into the context
+
+                apiClient.interceptors.request.use(    //for any api calls we add this token to the header.we set a common token to the api client
+                        (config)   => {console.log('intercepting and adding a token')
+                        config.headers.Authorization= baToken      //we add an authorization header to each of the api calls
+                        return config
+                    }
+                )                        
+
                 return true           
             } else {
                 logout()

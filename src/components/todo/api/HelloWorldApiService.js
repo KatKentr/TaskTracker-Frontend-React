@@ -1,16 +1,5 @@
 import axios from 'axios'
-
-
-const apiClient = axios.create(
-
-                       
-        {
-            
-            baseURL: 'http://localhost:8080'   //define the base url
-
-        }
-);
-
+import { apiClient } from './ApiClient'
 
 export function retrieveHelloWorldBean(){
 
@@ -19,5 +8,10 @@ export function retrieveHelloWorldBean(){
 }
 
 export const retrieveHelloWorldPathParameter //arrow function. equivalent to a regular function with a return statement
-= (username) => apiClient.get(`/hello-world/path-variable/${username}`)
+= (username,token) => apiClient.get(`/hello-world/path-variable/${username}`,
+// {
+//     headers:{Authorization: token}  //we dont need it any more, cause we added an interceptor.  The authorization token is added to all rest api calls
+// }
+)
+
 
