@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import {executeBasicAuthenticationService} from "../api/TodoApiService"
 
 //We will create an authentication context, put some state in the context and share the created content with other components 
 export const AuthContext = createContext()  //provide access to the AuthContext to the other components, in order to be able to ue the number variable in another component
@@ -14,19 +15,43 @@ export default function AuthProvider({children}) {   //all the children under th
 
 
     //authentication logic
-    function login(username,password){
+    // function login(username,password){   //hardcoded
 
-        if (username==='Katerina' && password==='dummy'){
-            setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
-            setUsername(username)
-            return true           
-        } else {
-            setAuthenticated(false)
-            setUsername(null)
-            return false
-        }
+    //     if (username==='Katerina' && password==='dummy'){
+    //         setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
+    //         setUsername(username)
+    //         return true           
+    //     } else {
+    //         setAuthenticated(false)
+    //         setUsername(null)
+    //         return false
+    //     }
+
+    // }
+
+    function login(username,password){     
+        //window.btoa : we do base64 encoding
+        const baToken='Basic ' + window.btoa(username + ":" + password)    //this is how we can generate the token
+        
+        executeBasicAuthenticationService(baToken)          //for now we have set basic authentication in backend. username and password are defined in the application.properties file in the spring boot project
+        .then (response => console.log(response))
+        .catch(error => console.log(error))
+
+        setAuthenticated(false)
+
+
+        // if (username==='Katerina' && password==='dummy'){
+        //     setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
+        //     setUsername(username)
+        //     return true           
+        // } else {
+        //     setAuthenticated(false)
+        //     setUsername(null)
+        //     return false
+        // }
 
     }
+
 
 
     function logout(){

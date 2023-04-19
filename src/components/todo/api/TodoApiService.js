@@ -30,3 +30,12 @@ export const updateToDoApi
 
 export const createToDoApi                                
 =(username,todo) => apiClient.post(`/users/${username}/todos`,todo)
+
+
+//basic authentication service
+export const executeBasicAuthenticationService
+=(token) => apiClient.get("/basicauth",{   //we are calling basicauth with the token which is passed in
+    headers:{                  //we have an object here . As part of the object we have headers
+        Authorization: token
+    }
+})
