@@ -13,6 +13,8 @@ export default function AuthProvider({children}) {   //all the children under th
     const [isAuthenticated, setAuthenticated] = useState(false)  //we want to make this value available to other components
     const[username,setUsername] =useState(null)
 
+    const [token,setToken]=useState(null)
+
 
     //authentication logic
     // function login(username,password){   //hardcoded
@@ -29,28 +31,30 @@ export default function AuthProvider({children}) {   //all the children under th
 
     // }
 
-    function login(username,password){     
+    async function login(username,password){     //However in this method we want to stop execution until we get a respnse back. If we get a response back we want to send the true back, so we will make this method an async method
         //window.btoa : we do base64 encoding
         const baToken='Basic ' + window.btoa(username + ":" + password)    //this is how we can generate the token
         
-        executeBasicAuthenticationService(baToken)          //for now we have set basic authentication in backend. username and password are defined in the application.properties file in the spring boot project
-        .then (response => console.log(response))
-        .catch(error => console.log(error))
+        try {
 
-        setAuthenticated(false)              //this will get executed before the above block. The above block will get executed once we get the response back
-                                             //However in this method we want to stop execution until we get a respnse back. If we get a response back we want to send the true back, so we will make this method an async method
+            const response= await executeBasicAuthenticationService(baToken)          //for now we have set basic authentication in backend. username and password are defined in the application.properties file in the spring boot project
+                                                   
+            if (response.status==200){
+                setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
+                setUsername(username)
+                setToken(baToken)       //we also need to set the token into the context
+                return true           
+            } else {
+                logout()
+                return false
+            }
 
+        } catch(error){ //in case of any error in executing the method we get false back
 
-        // if (username==='Katerina' && password==='dummy'){
-        //     setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
-        //     setUsername(username)
-        //     return true           
-        // } else {
-        //     setAuthenticated(false)
-        //     setUsername(null)
-        //     return false
-        // }
+            logout()
+            return false
 
+        }
     }
 
 
@@ -58,13 +62,16 @@ export default function AuthProvider({children}) {   //all the children under th
     function logout(){
 
         setAuthenticated(false)
+        setToken(null)
+        setUsername(null)
+
     }
 
 
 
     return (
 
-         <AuthContext.Provider value= {{isAuthenticated,login,logout,username}}>   {/* we create an object, These values will be shared among the child components*/}
+         <AuthContext.Provider value= {{isAuthenticated,login,logout,username,token}}>   {/* we create an object, These values will be shared among the child components*/}
             {children}   {/*the context will be shared ith children(components) of the AuthProvider */}
         </AuthContext.Provider>
 

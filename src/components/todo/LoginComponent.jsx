@@ -24,11 +24,11 @@ function LoginComponent() {
         setPassword(event.target.value);  //update the state
     }
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
 
-        if (authContext.login(username,password)){   //we invoke the method for the authentication
+        if (await authContext.login(username,password)){   //we invoke the method for the authentication
            
-            navigate(`/welcome/${username}`)
+            navigate(`/welcome/${username}`)   //we want to navigate to welcome page only if login finishes execution
             
         } else {
             setShowErrorMessage(true)
