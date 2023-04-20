@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import {executeBasicAuthenticationService} from "../api/TodoApiService"
+import {executeBasicAuthenticationService, executeJWTAuthenticationService} from "../api/AuthenticationApiService"
 import { apiClient } from "../api/ApiClient";
 
 //We will create an authentication context, put some state in the context and share the created content with other components 
@@ -32,22 +32,58 @@ export default function AuthProvider({children}) {   //all the children under th
 
     // }
 
+    //login using basic auth service
+    // async function login(username,password){     //However in this method we want to stop execution until we get a respnse back. If we get a response back we want to send the true back, so we will make this method an async method
+    //     //window.btoa : we do base64 encoding
+    //     const baToken='Basic ' + window.btoa(username + ":" + password)    //this is how we can generate the token
+        
+    //     try {
+
+    //         const response= await executeBasicAuthenticationService(baToken)          //for now we have set basic authentication in backend. username and password are defined in the application.properties file in the spring boot project
+                                                   
+    //         if (response.status==200){
+    //             setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
+    //             setUsername(username)
+    //             setToken(baToken)       //we also need to set the token into the context
+
+    //             apiClient.interceptors.request.use(    //for any api calls we add this token to the header.we set a common token to the api client
+    //                     (config)   => {console.log('intercepting and adding a token')
+    //                     config.headers.Authorization= baToken      //we add an authorization header to each of the api calls
+    //                     return config
+    //                 }
+    //             )                        
+
+    //             return true           
+    //         } else {
+    //             logout()
+    //             return false
+    //         }
+
+    //     } catch(error){ //in case of any error in executing the method we get false back
+
+    //         logout()
+    //         return false
+
+    //     }
+    // }
+
+    //login using jwt auth service
     async function login(username,password){     //However in this method we want to stop execution until we get a respnse back. If we get a response back we want to send the true back, so we will make this method an async method
-        //window.btoa : we do base64 encoding
-        const baToken='Basic ' + window.btoa(username + ":" + password)    //this is how we can generate the token
+       
         
         try {
 
-            const response= await executeBasicAuthenticationService(baToken)          //for now we have set basic authentication in backend. username and password are defined in the application.properties file in the spring boot project
+            const response= await executeJWTAuthenticationService(username,password)          //for now we have set basic authentication in backend. username and password are defined in the application.properties file in the spring boot project
                                                    
             if (response.status==200){
+                const jwtToken = 'Bearer ' + response.data.token    //retrieve token from the response
                 setAuthenticated(true)    //when the uer logs in we set setAuthenticated to true and setUsername
                 setUsername(username)
-                setToken(baToken)       //we also need to set the token into the context
+                setToken(jwtToken)       //we also need to set the token into the context
 
                 apiClient.interceptors.request.use(    //for any api calls we add this token to the header.we set a common token to the api client
                         (config)   => {console.log('intercepting and adding a token')
-                        config.headers.Authorization= baToken      //we add an authorization header to each of the api calls
+                        config.headers.Authorization= jwtToken      //we add an authorization header to each of the api calls
                         return config
                     }
                 )                        
